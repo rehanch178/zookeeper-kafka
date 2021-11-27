@@ -1,0 +1,3 @@
+JVMFLAGS="-Xmx@@JAVA_MEM@@ -Xms@@JAVA_MEM@@"
+ZOO_LOG4J_PROP="INFO,ROLLINGFILE"
+ZOO_LOG_DIR="/var/log/zookeeper/"

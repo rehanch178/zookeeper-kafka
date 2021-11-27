@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  kafka1:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.node == dst
+    image: rehanchy/kafka:kafka-2.13.2.6.1-10
+    hostname: kafka
+    networks:
+      - vnetwork
+    environment:
+      - BROKER_ID=1
+      - KAFKA_BROKERS=kafka1:9092,kafka2:9092,kafka3:9092
+      - ZOOKEEPER_SERVERS=zookeeper1:2181
+
+  kafka2:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.node == dst
+    image: rehanchy/kafka:kafka-2.13.2.6.1-10
+    hostname: kafka2
+    networks:
+      - vnetwork
+    environment:
+      - BROKER_ID=2
+      - KAFKA_BROKERS=kafka1:9092,kafka2:9092,kafka3:9092
+      - ZOOKEEPER_SERVERS=zookeeper1:2181
+
+  kafka3:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.node == dst
+    image: rehanchy/kafka:kafka-2.13.2.6.1-10
+    hostname: kafka3
+    networks:
+      - vnetwork
+    environment:
+      - BROKER_ID=3
+      - KAFKA_BROKERS=kafka1:9092,kafka2:9092,kafka3:9092
+      - ZOOKEEPER_SERVERS=zookeeper1:2181
+networks:
+  vnetwork:
+    external: true
+

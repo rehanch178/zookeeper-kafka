@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  zookeeper1:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.node == src
+    image: rehanchy/zookeeper:zookeeper-3.6.2-10
+    hostname: zookeeper1
+    networks:
+      - vnetwork
+    environment:
+      - ZOOKEEPER_SERVER_ID=1
+      - JAVA_MEM=1g
+      - ZOOKEEPER_SERVER=zookeeper1
+  zookeeper2:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.node == dst
+    image: rehanchy/zookeeper:zookeeper-3.6.2-10
+    hostname: zookeeper2
+    networks:
+      - vnetwork
+    environment:
+      - ZOOKEEPER_SERVER_ID=2
+      - JAVA_MEM=1g
+      - ZOOKEEPER_SERVER=zookeeper2
+networks:
+  vnetwork:
+    external: true
