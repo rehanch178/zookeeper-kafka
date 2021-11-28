@@ -5,7 +5,7 @@ services:
       placement:
         constraints:
           - node.labels.node == src
-    image: rehanchy/kafka:kafka-2.13.2.6.1-10
+    image: rehanchy/kafka:kafka-acl-2.13.2.6.1-1
     hostname: kafka1
     networks:
       - vnetwork
@@ -19,7 +19,7 @@ services:
       placement:
         constraints:
           - node.labels.node == src
-    image: rehanchy/kafka:kafka-2.13.2.6.1-10
+    image: rehanchy/kafka:kafka-acl-2.13.2.6.1-1
     hostname: kafka2
     networks:
       - vnetwork
@@ -33,7 +33,7 @@ services:
       placement:
         constraints:
           - node.labels.node == src
-    image: rehanchy/kafka:kafka-2.13.2.6.1-10
+    image: rehanchy/kafka:kafka-acl-2.13.2.6.1-1
     hostname: kafka3
     networks:
       - vnetwork
@@ -46,7 +46,7 @@ services:
       placement:
         constraints:
           - node.labels.node == dest
-    image: rehanchy/kafka:kafka-2.13.2.6.1-10
+    image: rehanchy/kafka:kafka-acl-2.13.2.6.1-1
     hostname: kafka4
     networks:
       - vnetwork
@@ -60,7 +60,7 @@ services:
       placement:
         constraints:
           - node.labels.node == dest
-    image: rehanchy/kafka:kafka-2.13.2.6.1-10
+    image: rehanchy/kafka:kafka-acl-2.13.2.6.1-1
     hostname: kafka5
     networks:
       - vnetwork
@@ -74,7 +74,7 @@ services:
       placement:
         constraints:
           - node.labels.node == dest
-    image: rehanchy/kafka:kafka-2.13.2.6.1-10
+    image: rehanchy/kafka:kafka-acl-2.13.2.6.1-1
     hostname: kafka6
     networks:
       - vnetwork

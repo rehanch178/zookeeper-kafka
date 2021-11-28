@@ -17,7 +17,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.labels.node == dst
+          - node.labels.node == dest
     image: rehanchy/zookeeper:zookeeper-3.6.2-10
     hostname: zookeeper2
     networks:
