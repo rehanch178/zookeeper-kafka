@@ -37,6 +37,9 @@
 ./commands.sh "describeTopic" "source" "compacttopic"
 ./commands.sh "describeTopic" "dest" "source.compacttopic"
 
-8. 
+# Add Acl at the source and check in the destination
+./commands.sh "addAclTopic"
+./commands.sh "listAclSourceTopic"
+./commands.sh "listAclDestTopic"
 
 
