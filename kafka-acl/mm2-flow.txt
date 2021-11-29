@@ -37,4 +37,6 @@
 ./commands.sh "describeTopic" "source" "compacttopic"
 ./commands.sh "describeTopic" "dest" "source.compacttopic"
 
+8. 
+
 
