@@ -14,7 +14,6 @@
 ./commands.sh "describeTopic" "dest" "source.mirrormakertopic"
 
 # Note new config update takes time. Check after sometime. Took 10 minutes to replicate.(Need to check mm2 config)
-
 4. Add a new partition and check replication
 ./commands.sh "addTopicPartition" "source" "mirrormakertopic"
 ./commands.sh "describeTopic" "source" "mirrormakertopic"

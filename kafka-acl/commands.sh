@@ -117,7 +117,7 @@ elif [ "${operationName}" == "produceProtobufTopic" ];then
 
 elif [ "${operationName}" == "addAclTopic" ];then
 {
-    ./kafka/bin/kafka-acls.sh --bootstrap-server kafka1:9093,kafka2:9093,kafka2:9093 --command-config admin.properties --topic first_topic --allow-principal User:consumer --consumer --add --group "*"
+    ./kafka/bin/kafka-acls.sh --bootstrap-server kafka1:9093,kafka2:9093,kafka2:9093 --command-config admin.properties --topic first_topic --allow-principal User:consumer --producer --add --group "*"
 }
 elif [ "${operationName}" == "listAclSourceTopic" ];then
 {
