@@ -1,0 +1,40 @@
+1.Create topic and check if the topic replicates to the destination
+
+./commands.sh "createTopic" "source" "mirrormakertopic"
+./commands.sh "listTopic" "source"
+./commands.sh "listTopic" "dest"
+
+2. Check if topic config replicated
+./commands.sh "describeTopic" "source" "mirrormakertopic"
+./commands.sh "describeTopic" "dest" "source.mirrormakertopic"
+
+3. Add a new config and check replication
+./commands.sh "addTopicRetention" "source" "mirrormakertopic"
+./commands.sh "describeTopic" "source" "mirrormakertopic"
+./commands.sh "describeTopic" "dest" "source.mirrormakertopic"
+
+# Note new config update takes time. Check after sometime. Took 10 minutes to replicate.(Need to check mm2 config)
+
+4. Add a new partition and check replication
+./commands.sh "addTopicPartition" "source" "mirrormakertopic"
+./commands.sh "describeTopic" "source" "mirrormakertopic"
+./commands.sh "describeTopic" "dest" "source.mirrormakertopic"
+
+5. Produce data to the topic, consume and verify if consumer offset is replicating
+./commands.sh "produceTopic" "source" "mirrormakertopic"
+./commands.sh "consumeTopicWithCommit" "source" "mirrormakertopic" "mirrormakergroup"
+./commands.sh "describeConsumerGroup" "source"
+./commands.sh "describeConsumerGroup" "dest"
+
+6. Create a topic for producing protobuf message
+./commands.sh "createTopic" "source" "protobufftopic"
+./commands.sh "produceProtobufTopic" "source" "protobufftopic"
+# Cosume to verify the offset replication
+./commands.sh "consumeTopicWithCommit" "source" "protobufftopic" "protobuffgroup"
+
+7. Compact a compact topic and check if the config is replicatig. Once the config is replicated, compaction at the source and destination will be taken care by the config
+./commands.sh "compactTopic" "source" "compacttopic"
+./commands.sh "describeTopic" "source" "compacttopic"
+./commands.sh "describeTopic" "dest" "source.compacttopic"
+
+

@@ -5,8 +5,8 @@ cluster=$2
 topicName=$3
 groupId=$4
 
-sourceBrokers="kafka1:9092,kafka2:9092,kafka3:9092"
-destBrokers="kafka4:9092,kafka5:9092,kafka6:9092"
+sourceBrokers="kafka1:9093,kafka2:9093,kafka3:9093"
+destBrokers="kafka4:9093,kafka5:9093,kafka6:9093"
 
 if [ "${cluster}" == "source" ];then
 {
@@ -20,26 +20,26 @@ fi
 
 if [ "${operationName}" == "createTopic" ];then
 {
-    ./kafka/bin/kafka-topics.sh --bootstrap-server $setBrokers --create --topic $topicName --partitions 3 --replication-factor 3 --config retention.ms=96400000
+    ./kafka/bin/kafka-topics.sh --bootstrap-server $setBrokers --create --topic $topicName --partitions 3 --replication-factor 3 --config retention.ms=96400000 --command-config admin.properties
 }
 elif [ "${operationName}" == "listTopic" ];then
 {
-    ./kafka/bin/kafka-topics.sh --bootstrap-server $setBrokers --list
+    ./kafka/bin/kafka-topics.sh --bootstrap-server $setBrokers --list --command-config admin.properties
 }
 
 elif [ "${operationName}" == "describeTopic" ];then
 {
-    ./kafka/bin/kafka-topics.sh --describe --bootstrap-server $setBrokers --topic $topicName 
+    ./kafka/bin/kafka-topics.sh --describe --bootstrap-server $setBrokers --topic $topicName --command-config admin.properties
 }
 
 elif [ "${operationName}" == "deleteTopic" ];then
 {
-    ./kafka/bin/kafka-topics.sh --bootstrap-server $setBrokers --topic $topicName --delete
+    ./kafka/bin/kafka-topics.sh --bootstrap-server $setBrokers --topic $topicName --delete --command-config admin.properties
 }
 
 elif [ "${operationName}" == "produceTopic" ];then
 {
-    for x in {100..200}; do echo "message $x"; done | ./kafka/bin/kafka-console-producer.sh --bootstrap-server $setBrokers --topic $topicName 
+    for x in {100..200}; do echo "message $x"; done | ./kafka/bin/kafka-console-producer.sh --bootstrap-server $setBrokers --topic $topicName --producer.config admin.properties
 }
 
 elif [ "${operationName}" == "consumeTopicWithCommit" ];then
@@ -51,7 +51,7 @@ elif [ "${operationName}" == "consumeTopicWithCommit" ];then
     }
     else
     {
-        ./kafka/bin/kafka-console-consumer.sh --bootstrap-server $setBrokers --topic $topicName --max-messages 10 --consumer-property enable.auto.commit=true --consumer-property group.id=$groupId --from-beginning
+        ./kafka/bin/kafka-console-consumer.sh --bootstrap-server $setBrokers --topic $topicName --max-messages 10 --consumer-property enable.auto.commit=true --consumer-property group.id=$groupId --from-beginning --consumer.config admin.properties
     }
     fi
 }
@@ -65,7 +65,7 @@ elif [ "${operationName}" == "consumeTopicWitoutCommit" ];then
     }
     else
     {
-        ./kafka/bin/kafka-console-consumer.sh --bootstrap-server $setBrokers --topic $topicName --max-messages 10 --consumer-property enable.auto.commit=false --consumer-property group.id=$groupId --from-beginning
+        ./kafka/bin/kafka-console-consumer.sh --bootstrap-server $setBrokers --topic $topicName --max-messages 10 --consumer-property enable.auto.commit=false --consumer-property group.id=$groupId --from-beginning --command-config admin.properties
     }
     fi
 }
@@ -73,18 +73,18 @@ elif [ "${operationName}" == "consumeTopicWitoutCommit" ];then
 # New topic partitions getting replicated
 elif [ "${operationName}" == "addTopicPartition" ];then
 {
-    ./kafka/bin/kafka-topics.sh --bootstrap-server $setBrokers --alter --topic $topicName --partitions 4 
+    ./kafka/bin/kafka-topics.sh --bootstrap-server $setBrokers --alter --topic $topicName --partitions 4 --command-config admin.properties
 }
 
 # Configs like retention.ms and delete.retention.ms is nor replicatiog
 elif [ "${operationName}" == "addTopicRetention" ];then
 {
-    ./kafka/bin/kafka-configs.sh --bootstrap-server $setBrokers --entity-type topics --entity-name $topicName --alter --add-config retention.ms=96400000
+    ./kafka/bin/kafka-configs.sh --bootstrap-server $setBrokers --entity-type topics --entity-name $topicName --alter --add-config delete.retention.ms=96400000 --command-config admin.properties
 }
 
 elif [ "${operationName}" == "compactTopic" ];then
 {
-    ./kafka/bin/kafka-topics.sh --bootstrap-server $setBrokers --create --topic $topicName --partitions 2 --replication-factor 2 --config cleanup.policy=compact
+    ./kafka/bin/kafka-topics.sh --bootstrap-server $setBrokers --create --topic $topicName --partitions 2 --replication-factor 2 --config cleanup.policy=compact --command-config admin.properties
      # Add compaction delay time 
      #/kafka/bin/kafka-configs.sh --bootstrap-server $setBrokers --entity-type topics --entity-name $topicName --alter --add-config log.cleaner.min.compaction.lag.ms=180000 
 }
@@ -92,27 +92,27 @@ elif [ "${operationName}" == "compactTopic" ];then
 # Desribe consumer group
 elif [ "${operationName}" == "describeConsumerGroup" ];then
 {
-    ./kafka/bin/kafka-consumer-groups.sh --bootstrap-server $setBrokers --all-groups --describe
+    ./kafka/bin/kafka-consumer-groups.sh --bootstrap-server $setBrokers --all-groups --describe --command-config admin.properties
 }
 
-elif [ "${operationName}" == "createCompactTopic" ];then
+# elif [ "${operationName}" == "createCompactTopic" ];then
+# {
+#     ./kafka/bin/kafka-consumer-groups.sh --bootstrap-server $setBrokers --topic $topicName --config
+# }
+
+elif [ "${operationName}" == "produceCompactTopic" ];then
 {
-    ./kafka/bin/kafka-consumer-groups.sh --bootstrap-server $setBrokers --topic $topicName --config
+    ./kafka/bin/kafka-consumer-groups.sh --bootstrap-server $setBrokers --topic $topicName --property parse.key=true --property key.separator=: --command-config admin.properties
 }
 
 elif [ "${operationName}" == "produceCompactTopic" ];then
 {
-    ./kafka/bin/kafka-consumer-groups.sh --bootstrap-server $setBrokers --topic $topicName --property parse.key=true --property key.separator=:
-}
-
-elif [ "${operationName}" == "produceCompactTopic" ];then
-{
-    ./kafka/bin/kafka-consumer-groups.sh --bootstrap-server $setBrokers --topic $topicName --property parse.key=true --property key.separator=:
+    ./kafka/bin/kafka-consumer-groups.sh --bootstrap-server $setBrokers --topic $topicName --property parse.key=true --property key.separator=: --command-config admin.properties
 }
 
 elif [ "${operationName}" == "produceProtobufTopic" ];then
 {
-    for x in {100..200}; do /root/protokaf/bin/protokaf produce HelloRequest --broker kafka1:9092,kafka2:9092,kafka3:9092 --proto example.proto --topic protobuff --data '{"name": "'$x'", "age": '$x'}'; done
+    for x in {100..200}; do protokaf produce HelloRequest --broker kafka1:9093,kafka2:9093,kafka3:9093 --proto example.proto --topic $topicName --kafka-auth-dsn PLAIN:admin:admin-secret --data '{"name": "'$x'", "age": '$x'}'; done 
 }
 
 elif [ "${operationName}" == "addAclTopic" ];then
