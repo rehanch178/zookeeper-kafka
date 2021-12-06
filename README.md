@@ -37,7 +37,7 @@ Install docker-compose on the leader node.
     sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
     sudo docker-compose --version
 
-Clone  repo and switch to directory kafka-acl
+Clone repo git clone https://github.com/rehanch178/zookeeper-kafka.git and switch to directory kafka-acl
     sudo docker stack deploy -c kafka.yaml zk-kafka
 
 Once docker stack is deployed and all the services are up then verify each kafka node has joined zookeeper cluster as kakfa brokers. Login to one of the zookeeper container, run command and list kafka brokers. The output should be [1, 2, 3] where 1, 2 and 3 are kafkabroker id's.
