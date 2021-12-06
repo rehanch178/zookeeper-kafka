@@ -37,7 +37,7 @@ Install docker-compose on the leader node.
     sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
     sudo docker-compose --version
 
-Get zookeeper docker-compose file from here https://github.com/rehanch178/zookeeper/blob/main/zookeeper-docker-compose.yaml , save it in a file name zookeeper-docker-compose.yaml and run command to setup 3 node zookeeper cluster.
+Get zookeeper docker-compose file from here https://github.com/rehanch178/zookeeper-kafka/blob/main/zookeeper/zk.yaml , save it in a file name zookeeper-docker-compose.yaml and run command to setup 3 node zookeeper cluster.
 
     sudo docker stack deploy -c zookeeper-docker-compose.yaml zk
 
