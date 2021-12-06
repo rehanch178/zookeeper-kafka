@@ -19,14 +19,12 @@ Execute the docker swarm join command on the other two nodes ( node2 and node3).
     ID                            HOSTNAME     STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
     4w7axt8g69fu625s9bwmdu99p     node2        Ready     Active                          20.10.7
     kebjh0g9wtzh7yvghnrglvh8r *   node1        Ready     Active         Leader           20.10.7
-    n7chbyltg638d96gg624r8psq     node3        Ready     Active                          20.10.7
 
 Add docker labels on the nodes. Labels will be rquired by the compose files to deploy zookeeper and kafka containers on each node.
 Run docker label commands from the leader node. Here leader node is node1, docker swarn commands should be run from the leader node only.
     
-    sudo docker node update --label-add  node=node1 <NODE_ID> (Get node ID from docker node ls output and pass) 
-    sudo docker node update --label-add  node=node2 <NODE_ID> (Get node ID from docker node ls output and pass)
-    sudo docker node update --label-add  node=node3 <NODE_ID> (Get node ID from docker node ls output and pass)
+    sudo docker node update --label-add  node=src <NODE_ID> (Get node ID from docker node ls output and pass) 
+    sudo docker node update --label-add  node=dest <NODE_ID> (Get node ID from docker node ls output and pass)
     
 Create overlay network which is required for internal communication of the containers inside docker swarm cluster
 
